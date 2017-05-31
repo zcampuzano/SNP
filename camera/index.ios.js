@@ -77,3 +77,4 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('camera', () => BadInstagramCloneApp);
+//penis
