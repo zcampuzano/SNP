@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import axios from 'axios';
 
@@ -14,9 +14,9 @@ class loginCheck extends Component {
   renderUsers() {
     return this.state.users.map(user =>
       <Text key={users.name}>{users.name, users.password}</Text>);
-      .then(
+      //.then(
         //get user input and check name/password combination
-      );
+      //);
   }
 
   render() {
@@ -24,3 +24,5 @@ class loginCheck extends Component {
   }
 
 }
+
+module.exports = (loginCheck);

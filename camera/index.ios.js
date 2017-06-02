@@ -8,8 +8,8 @@ import {
 
 import camera from './src/components/camera';
 import login from './src/components/login';
-import loginCheck from './src/components/loginCheck';
-import createAccount from './src/components/createAccount';
+//import loginCheck from './src/components/loginCheck';
+//import createAccount from './src/components/createAccount';
 
 
 const App = () => (
@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('camera', () => login);
-AppRegistry.registerComponent('camera', () => camera);
-AppRegistry.registerComponent('camera', () => createAccount);
-AppRegistry.registerComponent('camera', () => loginCheck);
+//AppRegistry.registerComponent('camera', () => camera);
+//AppRegistry.registerComponent('camera', () => createAccount);
+//AppRegistry.registerComponent('camera', () => loginCheck);
