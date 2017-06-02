@@ -7,11 +7,14 @@ import {
 } from 'react-native';
 
 import camera from './src/components/camera';
+import login from './src/components/login';
 
 export default class home extends Component {
   render() {
     return (
-        <camera />
+        <login />
+        //<camera />
+
     );
   }
 }
@@ -25,4 +28,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('camera', () => camera);
+AppRegistry.registerComponent('camera', () => login);
