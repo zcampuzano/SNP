@@ -8,7 +8,16 @@ import {
 
 import camera from './src/components/camera';
 import login from './src/components/login';
+import loginCheck from './src/components/loginCheck';
+import createAccount from './src/components/createAccount';
 
+
+const App = () => (
+  <View>
+    <login />
+  </View>
+)
+/*
 export default class home extends Component {
   render() {
     return (
@@ -17,7 +26,7 @@ export default class home extends Component {
 
     );
   }
-}
+}*/
 
 const styles = StyleSheet.create({
   container: {
@@ -29,3 +38,6 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('camera', () => login);
+AppRegistry.registerComponent('camera', () => camera);
+AppRegistry.registerComponent('camera', () => createAccount);
+AppRegistry.registerComponent('camera', () => loginCheck);

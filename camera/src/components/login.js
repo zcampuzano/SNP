@@ -21,14 +21,14 @@ class login extends Component {
           <Text style={styles.title} >Stop&Watch</ Text>
           <Button
             style={styles.button}
-            //onPress={onPressLearnMore}
+            //onPress={}
             title="Log In"
             color="#FF0000"
             accessibilityLabel="Log in to an existing Stop&Watch account"
           />
           <Button
             style={styles.button}
-            //onPress={onPressLearnMore}
+            //onPress={onPressCreateAccount}
             title="Create Account"
             color="#FF0000"
             accessibilityLabel="Create a new Stop&Watch account"
@@ -37,7 +37,27 @@ class login extends Component {
       </View>
     );
   }
+  /*
+  const onPressCreatAccount = () => {
+    return (
+      <View style={styles.container}>
 
+          <Text style={styles.title} >HEY</Text>
+      </View>
+
+    );
+  };
+
+  const onPressLogin = () => {
+    return (
+      <View style={styles.container}>
+
+          <Text style={styles.title} >HEY</Text>
+      </View>
+
+    );
+  };
+*/
 }
 
 const styles = StyleSheet.create({
@@ -59,7 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     color: '#000',
     margin: 50,
-    justifyContent: 'f',
+    justifyContent: 'flex-start',
     alignItems: 'center'
 
   }
