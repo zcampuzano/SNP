@@ -11,30 +11,36 @@ import {
   Text,
   Image,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   TouchableOpacity,
   View,
   StatusBar,
-  Switch
+  Switch,
+  Linking,
 } from 'react-native';
 
+import Gallery from './gallery'
 import Camera from 'react-native-camera';
+import CameraRollExtended from 'react-native-store-photos-album';
 
+var recordButton = require('../img/record.png');
+const { width, height } = Dimensions.get('window');
 
-class camera extends Component {
+class CameraDash extends Component {
   constructor() {
     super()
     this.state = {
       cameraType: Camera.constants.Type.back,
       captureMode: Camera.constants.CaptureMode.video,
-        captureAudio: true,
+      captureAudio: true,
       captureTarget: Camera.constants.CaptureTarget.cameraRoll,
-        isRecording: false,
-        videoData: null,
-      flashMode: Camera.constants.FlashMode.auto,
+      isRecording: false,
+      videoData: null,
+      flashMode: Camera.constants.FlashMode.on,
       colorTrueSwitchsOn: true,
       colorFalseSwitchIsOn: false,
       stopwatchStart: false,
-      stopwatchReset: false
+      stopwatchReset: false,
     }
   }
   render() {
@@ -48,30 +54,43 @@ class camera extends Component {
           captureTarget={this.state.captureTarget}
           captureMode={this.state.captureMode}
           flashMode={this.state.flashMode}
+          style={styles.cameraContainer}
           ref="camera"
-          style={styles.container}
         >
+
 
         <View style={styles.options}>
           <View style={styles.watch}>
             <TouchableHighlight
-              onPressIn={this.flashOn.bind(this)}
-              onPressOut={this.flashOff.bind(this)}
+              onPress={this.flashOn.bind(this)}
+              underlayColor={'#0000'}
+              //onPressOut={() => this.flashOff()}
             >
               <Image
                 style={styles.flash}
                 source={require('../img/on.png')}
               />
             </TouchableHighlight>
-            <Stopwatch laps secs start={this.state.stopwatchStart}
+            <Stopwatch start={this.state.stopwatchStart}
               reset={this.state.stopwatchReset}
               options={options}
-              getTime={this.currentTime} />
+              getTime={this.currentTime}
+            />
           </ View>
-
+          <TouchableHighlight
+            onPressIn={this.torchModeOn.bind(this)}
+            onPressOut={this.torchModeOff.bind(this)}
+            underlayColor={'#0000'}
+          >
+            <Image
+              style={styles.torchMode}
+              source={require('../img/torch.png')}
+            />
+          </TouchableHighlight>
           <TouchableHighlight
             onPressIn={this.saveVideo.bind(this)}
             onPressOut={this.dontSave.bind(this)}
+            underlayColor={'#0000'}
           >
             <Image
               style={styles.save}
@@ -81,10 +100,9 @@ class camera extends Component {
         </ View>
 
         <View style={styles.tray} >
-
           <TouchableHighlight
-            onPressIn={this.startTimer.bind(this)}
-            onPressOut={this.stopTimer.bind(this)}
+            onPress={this.toggleStopwatch.bind(this)}
+            underlayColor={'#0000'}
           >
             <Image
               style={styles.time}
@@ -94,55 +112,32 @@ class camera extends Component {
 
           <TouchableHighlight
             onPressIn={this.startRecord.bind(this)}
-            onPressOut={this.endVideo.bind(this)}
+            onPressOut={ this.endVideo.bind(this) }
+            underlayColor={'#0000'}
           >
+
             <Image
               style={styles.capture}
-              source={require('../img/record.png')}
+              source={recordButton}
             />
+
           </TouchableHighlight>
 
-          <TouchableHighlight
-            onPress={this.goToFolder.bind(this)}
-          >
-            <Image
-              style={styles.gallery}
-              source={require('../img/gallery.png')}
-            />
-          </TouchableHighlight>
+          <Gallery />
+
         </ View>
         </Camera>
       </View>
-/*
-      <View style={styles.container}>
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}
-          captureAudio={true}>
-          <Text style={styles.metric} >Select metric...</ Text>
-          <TouchableOpacity onPress={this.takePicture.bind(this)}>
-            <Image
-              style={styles.capture}
-              source={require('../img/play.png')}
-            />
-          </TouchableOpacity>
 
-        </Camera>
-      </View>
-
-*/
     );
   }
 
   toggleStopwatch() {
-    this.setState({stopwatchStart: true, stopwatchReset: false})
-    console.log('hello')
+    this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false})
   }
 
   resetStopwatch() {
+
     this.setState({stopwatchStart: false, stopwatchReset: true})
   }
 
@@ -152,42 +147,33 @@ class camera extends Component {
 
   flashOn() {
     this.setState({flashMode: Camera.constants.FlashMode.on})
+    console.log(this.state.flashMode)
   }
 
   flashOff() {
     this.setState({flashMode: Camera.constants.FlashMode.off})
   }
 
-  startTimer() {
-    //
+  torchModeOn() {
+
   }
 
-  stopTimer() {
-    //
+  torchModeOff() {
+
   }
 
   saveVideo() {
-    //
+
   }
 
   dontSave() {
       //
   }
 
-  goToFolder() {
-
-  }
-
-  takePicture() {
-    const options = {};
-    //options.location = ...
-    this.camera.capture({metadata: options})
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
-  }
 
   startRecord() {
     startVideo = setTimeout(this.recordVideo.bind(this), 50)
+    recordButton = require('../img/stop.png')
   }
 
   recordVideo() {
@@ -198,24 +184,29 @@ class camera extends Component {
         this.setState({videoData: data})
      })
       .catch((err) => console.log(err))
+    recordButton = require('../img/stop.png')
   }
 
   endVideo() {
     this.setState({isRecording: false})
     this.refs.camera.stopCapture()
     setTimeout(() => {console.log(this.state.videoData)}, 5000)
+    recordButton = require('../img/record.png')
+    this.resetStopwatch()
   }
 
 }
 
 const options = {
+
   container: {
-    backgroundColor: '#000',
+    backgroundColor: '#0000',
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
   text: {
-  fontSize: 18,
+  fontSize: 21,
+  opacity: 1,
   color: '#fff',
   marginLeft: 7,
   marginTop:25,
@@ -223,9 +214,20 @@ const options = {
   }
 };
 const styles = StyleSheet.create({
-  container: {
+  cameraContainer: {
     flex: 1,
     justifyContent: 'space-between'
+
+  },
+  buttonContainer: {
+    backgroundColor: '#000',
+    flex: 1
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    width: width,
+    height: height
   },
   watch: {
     flex: 0,
@@ -243,48 +245,46 @@ const styles = StyleSheet.create({
   },
   capture: {
     flex: 0,
-    width: 75,
-    height: 75,
+    width: width/7,
+    height: height/7,
     padding: 0,
+    backgroundColor: '#0000'
   },
-  nightMode: {
+  torchMode: {
     flex: 0,
-    width: 20,
-    height: 20,
-    marginLeft: 10,
+    width: width/15,
+    height: height/25,
+    marginLeft: 15,
     marginBottom: 15,
+    backgroundColor: '#0000',
+
 
   },
   save: {
     flex: 0,
-    width: 20,
-    height: 20,
-    marginLeft: 10,
+    width: width/15,
+    height: height/25,
+    marginLeft: 15,
+    backgroundColor: '#0000'
   },
   time: {
     flex:0,
-    width:20,
-    height:20,
-    marginBottom: 25,
-    marginRight: 0
-  },
-  gallery: {
-    flex:0,
-    width: 20,
-    height: 20,
-    marginBottom: 25,
-
+    width: 25,
+    height: 25,
+    marginBottom: 35,
+    marginRight: 10
   },
   flash: {
     flex:0,
-    marginLeft: 10,
+    marginLeft: 15,
     margin: 30,
     //marginBottom: 0,
     marginBottom: 10,
-    width: 20,
-    height: 20
+    width: width/15,
+    height: height/25,
+    backgroundColor: '#0000'
 
   }
 });
 
-module.exports = (camera);
+module.exports = (CameraDash);
