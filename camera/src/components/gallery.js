@@ -38,7 +38,7 @@ class Gallery extends Component {
   getPhotos = () => {
     CameraRoll.getPhotos({
       first: 20,
-      assetType: 'Videos'
+      assetType: 'All'
     })
     .then(r => this.setState({ photos: r.edges }))
   }
@@ -57,10 +57,10 @@ class Gallery extends Component {
     RNFetchBlob.fs.readFile(image, 'base64')
     .then((data) => {
       let shareOptions = {
-        title: "React Native Share Example",
+        //title: "React Native Share Example",
         message: "Check out this photo!",
         url: `data:image/jpg;base64,${data}`,
-        subject: "Check out this photo!"
+        //subject: "Check out this photo!"
       }
 
       Share.open(shareOptions)
