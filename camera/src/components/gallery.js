@@ -54,6 +54,7 @@ class Gallery extends Component {
 
   share = () => {
     const image = this.state.photos[this.state.index].node.image.uri
+    console.log(image)
     RNFetchBlob.fs.readFile(image, 'base64')
     .then((data) => {
       let shareOptions = {

@@ -16,6 +16,7 @@ import {
   StatusBar,
   Switch,
   Linking,
+  CameraRoll
 } from 'react-native';
 
 import Gallery from './gallery'
@@ -38,9 +39,12 @@ class CameraDash extends Component {
       cameraType: Camera.constants.Type.back,
       captureMode: Camera.constants.CaptureMode.video,
       captureAudio: true,
-      captureTarget: Camera.constants.CaptureTarget.cameraRoll,
+      captureTarget: Camera.constants.CaptureTarget.CameraRoll,
       isRecording: false,
       videoData: null,
+      uri: null,
+      lastVideo: [],
+      index: null,
       flashMode: Camera.constants.FlashMode.auto,
       torchMode: Camera.constants.TorchMode.off,
       stopwatchStart: false,
@@ -48,89 +52,16 @@ class CameraDash extends Component {
       saveMode: true,
     }
   }
-  render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar translucent={true} barStyle="light-content" />
-        <Camera
-          aspect={Camera.constants.Aspect.fill}
-          captureAudio={this.state.captureAudio}
-          captureMode={this.state.captureMode}
-          captureTarget={this.state.captureTarget}
-          captureMode={this.state.captureMode}
-          flashMode={this.state.flashMode}
-          torchMode={this.state.torchMode}
-          style={styles.cameraContainer}
-          ref="camera"
-        >
 
+  getPhotos() {
+    CameraRoll.getPhotos({
+      first: 1,
+      assetType: 'Videos'
+    })
+    .then(r => this.setState({ lastVideo: r.edges }))
 
-        <View style={styles.options}>
-          <View style={styles.watch}>
-            <TouchableHighlight
-              onPress={this.toggleFlash.bind(this)}
-              underlayColor={'#0000'}
-            >
-              <Image
-                style={styles.flash}
-                source={flash}
-              />
-            </TouchableHighlight>
-            <Stopwatch msecs start={this.state.stopwatchStart}
-              reset={this.state.stopwatchReset}
-              options={options}
-              getTime={this.currentTime}
-            />
-          </ View>
-          <TouchableHighlight
-            onPress={this.toggleTorch.bind(this)}
-            underlayColor={'#0000'}
-          >
-            <Image
-              style={styles.torchMode}
-              source={torch}
-            />
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={this.toggleSave.bind(this)}
-            underlayColor={'#0000'}
-          >
-            <Image
-              style={styles.save}
-              source={save}
-            />
-          </TouchableHighlight>
-        </ View>
-
-        <View style={styles.tray} >
-          <TouchableHighlight
-            onPress={this.toggleStopwatch.bind(this)}
-            underlayColor={'#0000'}
-          >
-            <Image
-              style={styles.time}
-              source={time}
-            />
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            onPress={this.toggleVideo.bind(this)}
-            underlayColor={'#0000'}
-          >
-
-            <Image
-              style={styles.capture}
-              source={record}
-            />
-
-          </TouchableHighlight>
-          <Gallery />
-        </ View>
-        </Camera>
-      </View>
-
-    );
   }
+
 
   toggleStopwatch() {
     this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false})
@@ -140,10 +71,13 @@ class CameraDash extends Component {
     if(this.state.stopwatchStart == true) {
       time = require('../img/time.png')
     }
+    //console.log(this.state.lastVideo.node.image.uri)
   }
 
   resetStopwatch() {
+    time = require('../img/time.png')
     this.setState({stopwatchStart: false, stopwatchReset: true})
+    //time = require('../img/time.png')
   }
 
   getFormattedTime(time) {
@@ -152,15 +86,15 @@ class CameraDash extends Component {
 
   toggleFlash() {
     if(this.state.flashMode == 0){
-      this.setState({flashMode: Camera.constants.FlashMode.auto})
+      this.setState({flashMode: Camera.constants.TorchMode.auto})
       flash = require('../img/auto.png')
     }
     if(this.state.flashMode == 1){
-      this.setState({flashMode: Camera.constants.FlashMode.off})
+      this.setState({flashMode: Camera.constants.TorchMode.off})
       flash = require('../img/off.png')
     }
     if(this.state.flashMode == 2){
-      this.setState({flashMode: Camera.constants.FlashMode.on})
+      this.setState({flashMode: Camera.constants.TorchMode.on})
       flash = require('../img/on.png')
     }
   }
@@ -199,9 +133,11 @@ class CameraDash extends Component {
   startRecord() {
     startVideo = setTimeout(this.recordVideo.bind(this), 50)
     record = require('../img/stop.png')
+    console.log(this.state.flashMode)
   }
 
   recordVideo() {
+
     this.setState({isRecording: true})
     this.refs.camera.capture()
       .then((data) => {
@@ -209,15 +145,100 @@ class CameraDash extends Component {
         this.setState({videoData: data})
      })
       .catch((err) => console.log(err))
+
     record = require('../img/stop.png')
+
   }
 
   endVideo() {
+
     this.setState({isRecording: false})
     this.refs.camera.stopCapture()
     setTimeout(() => {console.log(this.state.videoData)}, 5000)
     record = require('../img/record.png')
     this.resetStopwatch()
+    this.getPhotos()
+
+  }
+
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <StatusBar translucent={true} barStyle="light-content" />
+
+        <Camera
+          aspect={Camera.constants.Aspect.fill}
+          captureAudio={this.state.captureAudio}
+          captureMode={this.state.captureMode}
+          captureTarget={this.state.captureTarget}
+          flashMode={this.state.flashMode}
+          torchMode={this.state.flashMode}
+          style={styles.cameraContainer}
+          ref="camera"
+        >
+        </Camera>
+
+
+
+        <View style={styles.options}>
+          <View style={styles.watch}>
+            <TouchableHighlight
+              onPress={this.toggleFlash.bind(this)}
+              underlayColor={'#0000'}
+            >
+              <Image
+                style={styles.flash}
+                source={flash}
+              />
+            </TouchableHighlight>
+            <Stopwatch msecs start={this.state.stopwatchStart}
+              reset={this.state.stopwatchReset}
+              options={options}
+              getTime={this.currentTime}
+            />
+          </ View>
+
+          <TouchableHighlight
+            onPress={this.toggleSave.bind(this)}
+            underlayColor={'#0000'}
+          >
+            <Image
+              style={styles.save}
+              source={save}
+            />
+          </TouchableHighlight>
+        </ View>
+
+        <View style={styles.tray} >
+          <TouchableHighlight
+            onPress={this.toggleStopwatch.bind(this)}
+            onLongPress={this.resetStopwatch.bind(this)}
+            underlayColor={'#0000'}
+          >
+            <Image
+              style={styles.time}
+              source={time}
+            />
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            onPress={this.toggleVideo.bind(this)}
+            underlayColor={'#0000'}
+          >
+
+            <Image
+              style={styles.capture}
+              source={record}
+            />
+
+          </TouchableHighlight>
+          <Gallery />
+        </ View>
+
+      </View>
+
+    );
   }
 
 }
@@ -241,7 +262,9 @@ const options = {
 const styles = StyleSheet.create({
   cameraContainer: {
     flex: 1,
-    justifyContent: 'space-between'
+    position: 'absolute',
+    width: width,
+    height: height,
 
   },
   buttonContainer: {

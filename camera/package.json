@@ -12,6 +12,7 @@
     "react-native": "0.44.2",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-fetch-blob": "^0.10.5",
+    "react-native-fs": "^2.3.3",
     "react-native-share": "^1.0.20",
     "react-native-store-photos-album": "github:francisco-sanchez-molina/react-native-store-photos-album",
     "react-navigation": "^1.0.0-beta.11"
