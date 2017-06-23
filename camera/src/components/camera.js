@@ -16,7 +16,8 @@ import {
   StatusBar,
   Switch,
   Linking,
-  CameraRoll
+  CameraRoll,
+  Vibration
 } from 'react-native';
 
 import Gallery from './gallery'
@@ -122,6 +123,7 @@ class CameraDash extends Component {
   }
 
   toggleVideo() {
+
     if(this.state.isRecording == false) {
       this.startRecord()
     }
@@ -163,6 +165,7 @@ class CameraDash extends Component {
 
 
   render() {
+
     return (
       <View style={styles.container}>
         <StatusBar translucent={true} barStyle="light-content" />
@@ -212,7 +215,7 @@ class CameraDash extends Component {
 
         <View style={styles.tray} >
           <TouchableHighlight
-            onPress={this.toggleStopwatch.bind(this)}
+            onPress={ this.toggleStopwatch.bind(this) }
             onLongPress={this.resetStopwatch.bind(this)}
             underlayColor={'#0000'}
           >
