@@ -1,43 +1,31 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar
-} from 'react-native';
+import { AppRegistry } from 'react-native';
 
-import CameraDash from './src/components/camera';
-import Gallery from './src/components/gallery';
-import { StackNavigator } from 'react-navigation'
+import CameraApp from './src/components/camera';
+import { StackNavigator } from 'react-navigation';
 
 
-
-
-class Home extends Component {
+class Index extends Component {
   render() {
     return (
-
-          <CameraDash />
+          <CameraApp />
     )
   }
 }
 
+/*
+/////////////////////////TO DO//////////////////////////////
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  cameraContainer: {
-    position: 'absolute',
-    width: 300,   //figure out how to get width/height
-    height: 300,
-    top:0,
-    left:0
-  },
-  buttonContainer: {
-    flex: 1
-  }
-});
+1. landscape mode
+      record and playback mode
+2. icons
+3. save to folder
+4. gallery buttons
+5. embed time in video
+6. share to social media
+7. logo/splash screen
 
-AppRegistry.registerComponent('camera', () => Home);
+////////////////////////////////////////////////////////////
+*/
+
+AppRegistry.registerComponent('camera', () => Index);
