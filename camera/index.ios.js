@@ -18,9 +18,9 @@ class Index extends Component {
 
 1. landscape mode
       record and playback mode
-2. icons
+2. video controls in instant playback
 3. save to folder
-4. gallery buttons
+4. video playback style
 5. embed time in video
 6. share to social media
 7. logo/splash screen

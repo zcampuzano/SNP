@@ -165,17 +165,18 @@ class Gallery extends Component {
             </ScrollView>
             {
               this.state.index !== null  && (
-                <View style={styles.actionTray}>
-                  <TouchableOpacity onPress={this.share.bind(this)}>
-                    <Image source={require('../img/share.png')} style={styles.actionButton}/>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={this.playVideo.bind(this)}>
-                    <Image source={require('../img/play.png')} style={styles.actionButton}/>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={this.cancel.bind(this)}>
-                    <Image source={require('../img/cancel.png')} style={styles.actionButton}/>
-
-                  </TouchableOpacity>
+                <View style={styles.shadow}>
+                  <View style={styles.actionTray}>
+                    <TouchableOpacity onPress={this.share.bind(this)}>
+                      <Image source={require('../img/share.png')} style={styles.actionButton}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.playVideo.bind(this)}>
+                      <Image source={require('../img/play.png')} style={styles.actionButton}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.cancel.bind(this)}>
+                      <Image source={require('../img/cancel.png')} style={styles.actionButton}/>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               )
             }
@@ -193,23 +194,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000'
+    backgroundColor: '#000',
+
   },
   header: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 40
+    height: 50,
+    shadowColor: '#0001',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 1
 
   },
+  shadow: {
+    shadowColor: '#0001',
+    shadowOffset: {width: 0, height: -2},
+    shadowOpacity: 1
+  },
   headerText: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: '200',
-    alignItems: 'flex-start',
-    marginBottom: 10
+    //alignItems: 'flex-start',
+    //marginBottom: 10
   },
   modalContainer: {
     paddingTop: 20,
     flex: 1,
+    paddingLeft: -1.5,
+    paddingRight: -1.5,
     //alignItems: 'flex-start',
 
   },
@@ -223,7 +235,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#0000',
-    padding: 10
+    padding: 10,
   },
   galleryButton: {
     flex:0,
@@ -254,7 +266,7 @@ const styles = StyleSheet.create({
   back: {
     position: 'absolute',
     marginLeft: 5,
-    marginTop: 2.5,
+    marginTop: 11,
     marginBottom: 0,
     paddingTop: 20,
   },

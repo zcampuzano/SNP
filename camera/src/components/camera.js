@@ -234,7 +234,7 @@ class CameraApp extends Component {
             visible={this.state.settingsVisible}
             onRequestClose={() => {alert("Modal has been closed.")}}
           >
-            <TouchableWithoutFeedback onPress={this.toggleSettings.bind(this)} style={styles.fullScreen}>
+            <TouchableOpacity onPress={this.toggleSettings.bind(this)} style={styles.fullScreen}>
               <View style={styles.dropdown}>
                 <TouchableHighlight onPress={this.toggleSettings.bind(this)} underlayColor={'#0000'}>
                   <Image
@@ -261,7 +261,7 @@ class CameraApp extends Component {
                   />
                 </TouchableHighlight>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </Modal>
         </ View>
 
