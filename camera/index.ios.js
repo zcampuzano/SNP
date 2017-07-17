@@ -20,9 +20,7 @@ class Index extends Component {
       record and playback mode
 2. video controls in instant playback
 3. save to folder
-4. video playback style
 5. embed time in video
-6. share to social media
 7. logo/splash screen
 
 ////////////////////////////////////////////////////////////

@@ -140,9 +140,9 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderRadius: 5,
     position: 'absolute',
-    bottom: 44,
-    left: 4,
-    right: 4,
+    bottom: 15,
+    left: 8,
+    right: 8,
   },
   progress: {
     flex: 1,
@@ -151,12 +151,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   innerProgressCompleted: {
-    height: 10,
-    backgroundColor: '#cccccc',
+    height: 15,
+    backgroundColor: 'rgb(249, 249, 249)',
   },
   innerProgressRemaining: {
-    height: 10,
-    backgroundColor: '#2C2C2C',
+    height: 15,
+    backgroundColor: 'rgb(34, 34, 34)',
   },
   generalControls: {
     flex: 1,
@@ -172,11 +172,11 @@ const styles = StyleSheet.create({
   },
   controlOption: {
     alignSelf: 'center',
-    fontSize: 11,
+    fontSize: 15,
     color: "white",
-    paddingLeft: 2,
-    paddingRight: 2,
-    lineHeight: 12,
+    paddingLeft: 4,
+    paddingRight: 4,
+    lineHeight: 15,
   },
   backButton: {
     flex: 1,

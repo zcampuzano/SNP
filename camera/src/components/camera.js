@@ -22,6 +22,7 @@ import {
 import Gallery from './gallery';
 import VideoPlayer from './video';
 import Camera from 'react-native-camera';
+import RNWatermark from 'react-native-watermark';
 import CameraRollExtended from 'react-native-store-photos-album';
 
 let startVideo = false;
@@ -64,7 +65,7 @@ class CameraApp extends Component {
   }
 
   toggleStopwatch() {
-    Vibration.vibrate([1000], true)
+    //Vibration.vibrate([1000], true)
     this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false})
     if(this.state.stopwatchStart == false) {
       time = require('../img/timeon.png')
@@ -156,7 +157,8 @@ class CameraApp extends Component {
   }
 
   playVideo() {
-    this.setState({ path: this.state.videoData.path })
+    this.setState({ path: this.state.videoData.path})
+
   }
 
   save() {
@@ -169,20 +171,6 @@ class CameraApp extends Component {
     return (
       <View style={styles.container}>
         <StatusBar translucent={true} barStyle="light-content" />
-        <TouchableOpacity onPress={this.toggleVideo.bind(this)} style={styles.fullScreen}>
-          <Camera
-            aspect={Camera.constants.Aspect.fill}
-            captureAudio={this.state.captureAudio}
-            captureMode={this.state.captureMode}
-            captureTarget={this.state.captureTarget}
-            flashMode={this.state.flashMode}
-            torchMode={this.state.flashMode}
-            style={styles.cameraContainer}
-            ref="camera"
-          >
-          </Camera>
-        </TouchableOpacity>
-
         <Modal
           animationType={"fade"}
           transparent={true}
@@ -205,6 +193,20 @@ class CameraApp extends Component {
               </View>
             </View>
         </Modal>
+        <TouchableOpacity onPress={this.toggleVideo.bind(this)} style={styles.fullScreen}>
+          <Camera
+            aspect={Camera.constants.Aspect.fill}
+            captureAudio={this.state.captureAudio}
+            captureMode={this.state.captureMode}
+            captureTarget={this.state.captureTarget}
+            flashMode={this.state.flashMode}
+            torchMode={this.state.flashMode}
+            style={styles.cameraContainer}
+            ref="camera"
+          >
+          </Camera>
+        </TouchableOpacity>
+
 
         <View style={styles.options}>
 

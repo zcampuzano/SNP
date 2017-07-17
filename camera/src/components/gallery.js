@@ -194,16 +194,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor: '#000'
 
   },
   header: {
-    alignItems: 'center',
-    justifyContent: 'center',
     height: 50,
     shadowColor: '#0001',
     shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 1
+    shadowOpacity: 1,
+    //paddingTop: 20
 
   },
   shadow: {
@@ -214,15 +213,12 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 25,
     fontWeight: '200',
-    //alignItems: 'flex-start',
-    //marginBottom: 10
+    textAlign: 'center',
+    marginTop: 10
   },
   modalContainer: {
     paddingTop: 20,
     flex: 1,
-    paddingLeft: -1.5,
-    paddingRight: -1.5,
-    //alignItems: 'flex-start',
 
   },
   scrollView: {
