@@ -1,7 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 import {
   AlertIOS,
   AppRegistry,
@@ -10,7 +11,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Modal,
   Dimensions,
   Image
 } from 'react-native';
@@ -25,6 +25,7 @@ class VideoPlayer extends Component {
     this.onLoad = this.onLoad.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onBuffer = this.onBuffer.bind(this);
+    this.source = require('../img/test.mov')
     this.state = {
       rate: 1,
       volume: 1,
@@ -37,14 +38,10 @@ class VideoPlayer extends Component {
       skin: 'custom',
       ignoreSilentSwitch: 'ignore',
       isBuffering: false,
-      modalVisible: false,
+      path: this.props.path
     }
   }
 
-
-  toggleModal() {
-    this.setState({ modalVisible: !this.state.modalVisible });
-  }
 
   onLoad(data) {
     console.log('On load fired!');
@@ -86,7 +83,7 @@ class VideoPlayer extends Component {
       <View style={styles.container}>
         <TouchableOpacity style={styles.fullScreen} onPress={() => {this.setState({paused: !this.state.paused})}}>
           <Video
-            source={this.props.source}
+            source={this.state.path}
             style={styles.fullScreen}
             rate={this.state.rate}
             paused={this.state.paused}
@@ -100,7 +97,6 @@ class VideoPlayer extends Component {
             repeat={true}
           />
         </TouchableOpacity>
-
         <View style={styles.controls}>
           <View style={styles.generalControls}>
             <View style={styles.rateControl}>
@@ -109,7 +105,6 @@ class VideoPlayer extends Component {
               {this.renderRateControl(2.0)}
             </View>
           </View>
-
           <View style={styles.trackingControls}>
             <View style={styles.progress}>
               <View style={[styles.innerProgressCompleted, {flex: flexCompleted}]} />
@@ -177,19 +172,6 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     paddingRight: 4,
     lineHeight: 15,
-  },
-  backButton: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start'
-  },
-  back: {
-    flex: 0,
-    width: width/12,
-    height: height/24,
-    margin: 25,
-    marginLeft: 5,
-    backgroundColor: '#0000'
   },
 });
 

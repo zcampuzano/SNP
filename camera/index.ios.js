@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-
-import CameraApp from './src/components/camera';
 import { StackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
+import AppReducer from './src/reducers/AppReducer';
+import AppWithNavigationState from './src/navigators/AppNavigator';
 
 class Index extends Component {
+  store = createStore(AppReducer);
+
   render() {
     return (
-          <CameraApp />
-    )
+      <Provider store={this.store}>
+        <AppWithNavigationState />
+      </Provider>
+    );
   }
 }
 
 /*
 /////////////////////////TO DO//////////////////////////////
 
-1. landscape mode
-      record and playback mode
-2. video controls in instant playback
 3. save to folder
 5. embed time in video
 7. logo/splash screen
@@ -27,3 +30,4 @@ class Index extends Component {
 */
 
 AppRegistry.registerComponent('camera', () => Index);
+export default Index;
