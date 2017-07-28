@@ -1,6 +1,6 @@
 'use strict';
 
-import { Stopwatch } from 'react-native-stopwatch-timer';
+import { Stopwatch } from './react-native-stopwatch-timer';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
@@ -29,6 +29,7 @@ var record = null;
 var save = require('../img/save.png');
 var flash = require('../img/auto.png');
 var time = require('../img/time.png');
+var recordbutton = require('../img/recordbutton.png');
 
 
 const { width, height } = Dimensions.get('window');
@@ -49,6 +50,7 @@ class Cam extends Component {
       torchMode: Camera.constants.TorchMode.off,
       stopwatchStart: false,
       stopwatchReset: false,
+      stopwatchLap: false,
       saveMode: true,
       settingsVisible: false,
     }
@@ -59,14 +61,18 @@ class Cam extends Component {
   }
 
   toggleStopwatch() {
-    this.setState({stopwatchStart: !this.state.stopwatchStart, stopwatchReset: false})
-    if(this.state.stopwatchStart == false) {
+    if(this.state.stopwatchStart) {
+      if(this.state.stopwatchLap) {
+        this.setState({stopwatchLap: false});
+        this.setState({stopwatchStart: false, stopwatchReset: false});
+        time = require('../img/time.png')
+      } else {
+        this.setState({stopwatchLap: true});
+      }
+    } else {
+      this.setState({stopwatchStart: true, stopwatchReset: false});
       time = require('../img/timeon.png')
     }
-    if(this.state.stopwatchStart == true) {
-      time = require('../img/time.png')
-    }
-
   }
 
   resetStopwatch() {
@@ -160,7 +166,10 @@ class Cam extends Component {
 
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.toggleVideo.bind(this)} style={styles.fullScreen}>
+        <TouchableOpacity
+          onPress={this.toggleStopwatch.bind(this)}
+          onLongPress={this.resetStopwatch.bind(this)}
+          style={styles.fullScreen}>
           <Camera
             aspect={Camera.constants.Aspect.fill}
             captureAudio={this.state.captureAudio}
@@ -183,9 +192,9 @@ class Cam extends Component {
             </TouchableHighlight>
             <View style={styles.recordDisplay}>
               <Image source={record} style={styles.record} visible={false}/>
-              <Stopwatch msecs start={this.state.stopwatchStart}
+              <Stopwatch msecs laps start={this.state.stopwatchStart}
                 reset={this.state.stopwatchReset}
-                options={options}
+                lap={this.state.stopwatchLap}
                 getTime={this.currentTime}
               />
             </View>
@@ -227,17 +236,34 @@ class Cam extends Component {
           </Modal>
         </ View>
         <View style={styles.tray} >
-          <TouchableHighlight
-            onPress={ this.toggleStopwatch.bind(this) }
-            onLongPress={this.resetStopwatch.bind(this)}
-            underlayColor={'#0000'}
-          >
+          <View>
             <Image
               style={styles.time}
               source={time}
             />
-          </TouchableHighlight>
-
+          </View>
+          <View>
+            <TouchableHighlight
+              onPress={ this.toggleVideo.bind(this) }
+              underlayColor={'#0000'}
+            >
+              <Image
+                style={styles.recordButton}
+                source={recordbutton}
+              />
+            </TouchableHighlight>
+          </View>
+          <View>
+            <TouchableHighlight
+              onPress={() => this.props.navigation.dispatch({ type: 'Gallery'})}
+              underlayColor={'#0000'}
+            >
+              <Image
+                style={styles.galleryButton}
+                source={require('../img/gallery.png')}
+              />
+            </TouchableHighlight>
+          </View>
         </ View>
       </View>
     );
@@ -246,24 +272,6 @@ class Cam extends Component {
 
 
 
-const options = {
-
-  container: {
-    backgroundColor: '#0000',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    width: 120
-
-  },
-  text: {
-  fontSize: 21,
-  opacity: 1,
-  color: '#fff',
-  marginLeft: 7,
-  marginTop:30,
-  marginRight: 10,
-  }
-};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -294,6 +302,7 @@ const styles = StyleSheet.create({
     width: width/15,
     height: height/25,
     marginTop: 28,
+    marginRight: 10
   },
   settings: {
     flex: 0,
@@ -347,12 +356,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+  recordButton: {
+    flex: 0,
+    width: 50,
+    height: 50,
+    margin: 25,
+    backgroundColor: '#0000'
+  },
   galleryButton: {
     flex:0,
     width: 30,
     height: 30,
+    backgroundColor: '#0000',
     margin: 25,
-    backgroundColor: '#0000'
   },
 });
 

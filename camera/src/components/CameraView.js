@@ -18,18 +18,6 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
   },
-  gallery: {
-    flex: 1,
-    position: 'absolute',
-    marginLeft: width-55,
-    marginTop: height-55
-  },
-  galleryButton: {
-    flex:0,
-    width: 30,
-    height: 30,
-    backgroundColor: '#0000'
-  },
 });
 
 const CameraView = ({ navigation }) => (
@@ -37,17 +25,6 @@ const CameraView = ({ navigation }) => (
     <StatusBar translucent={true} barStyle="light-content" />
     <View style={styles.cameraContainer}>
       <Cam navigation={navigation} />
-      <View style={styles.gallery}>
-        <TouchableHighlight
-          onPress={() => navigation.dispatch({ type: 'Gallery'})}
-          underlayColor={'#0000'}
-        >
-          <Image
-            style={styles.galleryButton}
-            source={require('../img/gallery.png')}
-          />
-        </TouchableHighlight>
-      </View>
     </View>
   </View>
 );
