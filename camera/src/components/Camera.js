@@ -183,27 +183,23 @@ class Camera extends Component {
   //  }
 
   toggleSettings() {
-    if(!this.state.settingsVisible) {
-      settings = require('../img/settingson.png');
-    } else {
-      settings = require('../img/settings.png');
-    }
+      settings = !this.state.settingsVisible ? require('../img/settingson.png') : require('../img/settings.png');
     this.setState({ settingsVisible: !this.state.settingsVisible });
   }
 
   toggleStopwatch() {
-    if(this.state.stopwatchStart) {
-      if(this.state.stopwatchLap) {
-        this.setState({stopwatchLap: false});
-        this.setState({stopwatchStart: false, stopwatchReset: false});
-        time = require('../img/time.png')
+      if (this.state.stopwatchStart) {
+          if (this.state.stopwatchLap) {
+              this.setState({stopwatchLap: false});
+              this.setState({stopwatchStart: false, stopwatchReset: false});
+              time = require('../img/time.png')
+          } else {
+              this.setState({stopwatchLap: true});
+          }
       } else {
-        this.setState({stopwatchLap: true});
+          this.setState({stopwatchStart: true, stopwatchReset: false});
+          time = require('../img/timeon.png')
       }
-    } else {
-      this.setState({stopwatchStart: true, stopwatchReset: false});
-      time = require('../img/timeon.png')
-    }
   }
 
   resetStopwatch() {
@@ -226,26 +222,26 @@ class Camera extends Component {
   }
 
   toggleFlash() {
-    if(this.state.flashMode == 0){
+    if(this.state.flashMode === 0){
       this.setState({flashMode: 2})
       flash = require('../img/auto.png')
     }
-    if(this.state.flashMode == 1){
+    if(this.state.flashMode === 1){
       this.setState({flashMode: 0})
       flash = require('../img/off.png')
     }
-    if(this.state.flashMode == 2){
+    if(this.state.flashMode === 2){
       this.setState({flashMode: 1})
       flash = require('../img/on.png')
     }
   }
 
   toggleSave() {
-    if(this.state.saveMode == true) {
+    if(this.state.saveMode === true) {
       this.setState({saveMode: false})
       save = require('../img/nosave.png')
     }
-    if(this.state.saveMode == false) {
+    if(this.state.saveMode === false) {
       this.setState({saveMode: true})
       save = require('../img/save.png')
     }

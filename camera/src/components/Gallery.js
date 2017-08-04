@@ -1,13 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
 import {
   View,
   TouchableHighlight,
-  StyleSheet,
   CameraRoll,
   Image,
   Dimensions,
