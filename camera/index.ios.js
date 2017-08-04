@@ -22,9 +22,10 @@ class Index extends Component {
 /*
 /////////////////////////TO DO//////////////////////////////
 
-3. save to folder
-5. embed time in video
-7. logo/splash screen
+!- Stopwatch overlay
+!- Save to Album - CameraRollExtended needs to be updated with Photos Library... AssetsLibrary deprecated
+!- Landscape mode - figure out best method (testing) - possibly only allow landscape in video playback
+!- Logo/Splash screen (christian)
 
 ////////////////////////////////////////////////////////////
 */

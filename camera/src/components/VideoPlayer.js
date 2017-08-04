@@ -4,20 +4,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
 import {
-  AlertIOS,
-  AppRegistry,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Dimensions,
-  Image
+  Image,
+  Animated
 } from 'react-native';
 
 import Video from 'react-native-video';
+import styles from '../styles/styleV';
 
-const { width, height } = Dimensions.get('window');
+const screen = Dimensions.get('window');
 
 class VideoPlayer extends Component {
   constructor(props) {
@@ -25,7 +24,6 @@ class VideoPlayer extends Component {
     this.onLoad = this.onLoad.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onBuffer = this.onBuffer.bind(this);
-    this.source = require('../img/test.mov')
     this.state = {
       rate: 1,
       volume: 1,
@@ -33,15 +31,45 @@ class VideoPlayer extends Component {
       resizeMode: 'contain',
       duration: 0.0,
       currentTime: 0.0,
-      controls: false,
+      barPosition: new Animated.Value(0),
       paused: false,
       skin: 'custom',
       ignoreSilentSwitch: 'ignore',
       isBuffering: false,
-      path: this.props.path
+      path: this.props.path,
+      start: false,
     }
   }
 
+  startBarAnimation() {
+    this.animRunning = true;
+
+    this.animBar = Animated.timing(
+      this.state.barPosition,
+      {
+        toValue: screen.width,
+        duration: (this.state.duration * 900) - (this.state.currentTime * 1000)
+      }
+    );
+    this.animBar.start(() => {
+      // The video duration limit has been reached
+      if (this.animRunning) {
+        this.stopBarAnimation();
+        this.resetBarAnimation();
+      }
+    });
+  }
+
+  resetBarAnimation() {
+    Animated.spring(this.state.barPosition, {toValue: 0}).start();
+
+  }
+
+  stopBarAnimation() {
+    this.animRunning = false;
+    if (this.animBar)
+      this.animBar.stop();
+  }
 
   onLoad(data) {
     console.log('On load fired!');
@@ -50,19 +78,27 @@ class VideoPlayer extends Component {
 
   onProgress(data) {
     this.setState({currentTime: data.currentTime});
+    if(this.state.currentTime == 0) {
+      this.startBarAnimation();
+    }
+    console.log(this.state.currentTime)
+  }
+
+  onPause() {
+    if(this.state.paused) {
+      this.startBarAnimation();
+      this.setState({start: true});
+    } else {
+      this.stopBarAnimation();
+      this.setState({start: false});
+    }
+    this.setState({paused: !this.state.paused});
   }
 
   onBuffer({ isBuffering }: { isBuffering: boolean }) {
     this.setState({ isBuffering });
   }
 
-  getCurrentTimePercentage() {
-    if (this.state.currentTime > 0) {
-      return parseFloat(this.state.currentTime) / parseFloat(this.state.duration);
-    } else {
-      return 0;
-    }
-  }
 
   renderRateControl(rate) {
     const isSelected = (this.state.rate == rate);
@@ -77,11 +113,10 @@ class VideoPlayer extends Component {
   }
 
   render() {
-    const flexCompleted = this.getCurrentTimePercentage() * 100;
-    const flexRemaining = (1 - this.getCurrentTimePercentage()) * 100;
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.fullScreen} onPress={() => {this.setState({paused: !this.state.paused})}}>
+
+        <TouchableOpacity style={styles.fullScreen} onPress={this.onPause.bind(this)}>
           <Video
             source={this.state.path}
             style={styles.fullScreen}
@@ -95,6 +130,7 @@ class VideoPlayer extends Component {
             onBuffer={this.onBuffer}
             onProgress={this.onProgress}
             repeat={true}
+            rotate={true}
           />
         </TouchableOpacity>
         <View style={styles.controls}>
@@ -105,74 +141,15 @@ class VideoPlayer extends Component {
               {this.renderRateControl(2.0)}
             </View>
           </View>
-          <View style={styles.trackingControls}>
-            <View style={styles.progress}>
-              <View style={[styles.innerProgressCompleted, {flex: flexCompleted}]} />
-              <View style={[styles.innerProgressRemaining, {flex: flexRemaining}]} />
-            </View>
+        </View>
+        <View style={styles.track}>
+          <View style={styles.barWrapper}>
+            <Animated.View style={[styles.barGauge, {width: this.state.barPosition}]}/>
           </View>
         </View>
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    backgroundColor: 'black',
-  },
-  fullScreen: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  controls: {
-    backgroundColor: "transparent",
-    borderRadius: 5,
-    position: 'absolute',
-    bottom: 15,
-    left: 8,
-    right: 8,
-  },
-  progress: {
-    flex: 1,
-    flexDirection: 'row',
-    borderRadius: 3,
-    overflow: 'hidden',
-  },
-  innerProgressCompleted: {
-    height: 15,
-    backgroundColor: 'rgb(249, 249, 249)',
-  },
-  innerProgressRemaining: {
-    height: 15,
-    backgroundColor: 'rgb(34, 34, 34)',
-  },
-  generalControls: {
-    flex: 1,
-    flexDirection: 'row',
-    overflow: 'hidden',
-    paddingBottom: 10,
-  },
-  rateControl: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 5,
-  },
-  controlOption: {
-    alignSelf: 'center',
-    fontSize: 15,
-    color: "white",
-    paddingLeft: 4,
-    paddingRight: 4,
-    lineHeight: 15,
-  },
-});
 
 module.exports =  (VideoPlayer);

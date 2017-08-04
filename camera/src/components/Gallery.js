@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 
 import Share from 'react-native-share';
+import styles from '../styles/styleG';
 
 const { width, height } = Dimensions.get('window');
 
@@ -41,8 +42,8 @@ class Gallery extends Component {
 
   getPhotos() {
     CameraRoll.getPhotos({
-      first: 5,
-      assetType: 'All'
+      first: 20,
+      assetType: 'Videos'
     })
     .then(r => this.setState({ photos: r.edges }))
   }
@@ -122,38 +123,6 @@ class Gallery extends Component {
       </View>
     )
   }
-
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0000'
-  },
-  shadow: {
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: -2},
-    shadowOpacity: .1
-  },
-  scrollView: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
-  actionTray: {
-    flex: 0,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#0000',
-    padding: 7.5,
-  },
-  actionButton: {
-    width: 27.5,
-    height: 27.5,
-  },
-
-})
 
 module.exports = (Gallery);

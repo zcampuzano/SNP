@@ -47,6 +47,7 @@
 		C442CEA71EFDC33D00CDBB07 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45D3BDC1EFC75B6003AAA12 /* libRNFS.a */; };
 		C442CEA81EFDC34500CDBB07 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C442CE951EFD9FE000CDBB07 /* libRCTVideo.a */; };
 		C442CEA91EFDC34E00CDBB07 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F403721EF3229E00102523 /* libRNFetchBlob.a */; };
+		C47B284A1F2FD61E00D49329 /* libRNRecorder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C47B28451F2FD5EF00D49329 /* libRNRecorder.a */; };
 		C48A9E591EDE07DE0054D3C1 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C48A9E421EDE07920054D3C1 /* libRCTCamera.a */; };
 		C4A1CA2E1F1445DD00E7E181 /* libRNWatermark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A1CA2D1F1445B000E7E181 /* libRNWatermark.a */; };
 		C4F403101EF3108D00102523 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F402F91EF3107900102523 /* libRCTCameraRoll.a */; };
@@ -263,6 +264,20 @@
 			remoteGlobalIDString = 6456441F1EB8DA9100672408;
 			remoteInfo = "RNFS-tvOS";
 		};
+		C47B28441F2FD5EF00D49329 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C47B281E1F2FD5EE00D49329 /* RNRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D42CB3511B2538DE00FD0AE2;
+			remoteInfo = RNRecorder;
+		};
+		C47B28461F2FD5EF00D49329 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C47B281E1F2FD5EE00D49329 /* RNRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D42CB35C1B2538DE00FD0AE2;
+			remoteInfo = RNRecorderTests;
+		};
 		C48A9E411EDE07920054D3C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AEFA43C84EB3412284F00A01 /* RCTCamera.xcodeproj */;
@@ -342,6 +357,7 @@
 		9DEB515BEE2E467B8CD05535 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
 		AEFA43C84EB3412284F00A01 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		C02C1726AB6D46618C3FCEA9 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
+		C47B281E1F2FD5EE00D49329 /* RNRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecorder.xcodeproj; path = "../node_modules/react-native-screcorder/ios/RNRecorder.xcodeproj"; sourceTree = "<group>"; };
 		C4A1CA071F1445B000E7E181 /* RNWatermark.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNWatermark.xcodeproj; path = "../node_modules/react-native-watermark/RNWatermark.xcodeproj"; sourceTree = "<group>"; };
 		C4F402F01EF3107900102523 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		EB30C68BE4584650B900D655 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -361,6 +377,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C47B284A1F2FD61E00D49329 /* libRNRecorder.a in Frameworks */,
 				C4A1CA2E1F1445DD00E7E181 /* libRNWatermark.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -541,6 +558,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C47B281E1F2FD5EE00D49329 /* RNRecorder.xcodeproj */,
 				C4A1CA071F1445B000E7E181 /* RNWatermark.xcodeproj */,
 				C4F402F01EF3107900102523 /* RCTCameraRoll.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -609,6 +627,15 @@
 			children = (
 				C45D3BDC1EFC75B6003AAA12 /* libRNFS.a */,
 				C45D3BDE1EFC75B6003AAA12 /* libRNFS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C47B281F1F2FD5EE00D49329 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C47B28451F2FD5EF00D49329 /* libRNRecorder.a */,
+				C47B28471F2FD5EF00D49329 /* RNRecorderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -847,6 +874,10 @@
 					ProjectRef = 2149998378D44B84AC1877C4 /* RNFS.xcodeproj */;
 				},
 				{
+					ProductGroup = C47B281F1F2FD5EE00D49329 /* Products */;
+					ProjectRef = C47B281E1F2FD5EE00D49329 /* RNRecorder.xcodeproj */;
+				},
+				{
 					ProductGroup = C4F4031E1EF31DE000102523 /* Products */;
 					ProjectRef = 206A92A2046D4E6383D6E42F /* RNShare.xcodeproj */;
 				},
@@ -1060,6 +1091,20 @@
 			fileType = archive.ar;
 			path = libRNFS.a;
 			remoteRef = C45D3BDD1EFC75B6003AAA12 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C47B28451F2FD5EF00D49329 /* libRNRecorder.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNRecorder.a;
+			remoteRef = C47B28441F2FD5EF00D49329 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C47B28471F2FD5EF00D49329 /* RNRecorderTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNRecorderTests.xctest;
+			remoteRef = C47B28461F2FD5EF00D49329 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C48A9E421EDE07920054D3C1 /* libRCTCamera.a */ = {

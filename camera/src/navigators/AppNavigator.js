@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
-import CameraView from '../components/CameraView';
-import GalleryView from '../components/GalleryView';
-import VideoView from '../components/VideoView';
+import CameraView from './CameraView';
+import GalleryView from './GalleryView';
+import VideoView from './VideoView';
 
 export const AppNavigator = StackNavigator({
   Camera: {
