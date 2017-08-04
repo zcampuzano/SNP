@@ -14,6 +14,9 @@ class StopWatch extends Component {
       pausedTime: null,
       started: false,
       elapsed: null,
+      final: null,
+      fright: null,
+      fleft: null,
     };
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -28,10 +31,7 @@ class StopWatch extends Component {
         alignItems: 'flex-end',
         width: 130,
         height: 60,
-        marginTop: 25,
-        marginRight: 10,
         borderRadius: 5
-
       },
       elapsedContainer: {
         width: 130,
@@ -79,6 +79,9 @@ class StopWatch extends Component {
     if(this.props.start) {
       this.start();
     }
+    // if (typeof this.props.getTime === "function") {
+    //   this.props.getTime({final: this.state.final, right: this.state.fright, left: this.state.fleft});
+    // }
   }
 
   componentWillReceiveProps(newProps) {
@@ -148,6 +151,7 @@ class StopWatch extends Component {
     this.interval2 = null;
     clearInterval(this.interval);
     this.interval = null;
+
     this.setState({elapsed: null, startTime: null, stopTime: null, RSTime: null, LSTime: null});
   }
 
@@ -189,6 +193,12 @@ class StopWatch extends Component {
 
     seconds = `${s_ten}${s_one}`
     minutes = `${m_ten}${m_one}`
+
+    formatted = `${minutes}:${seconds}:${msecs}`
+
+    if (typeof this.props.getTime === "function") {
+      this.props.getTime(formatted);
+    }
 
     const styles = this.defaultStyles;
 
@@ -253,6 +263,12 @@ class StopWatch extends Component {
     seconds = `${s_ten}${s_one}`
     minutes = `${m_ten}${m_one}`
 
+    formatted = `${minutes}:${seconds}:${msecs}`;
+
+    if (typeof this.props.getLapTime === "function") {
+      this.props.getLapTime(formatted, side);
+    }
+
     const styles = this.defaultStyles;
 
     return (
@@ -279,8 +295,8 @@ class StopWatch extends Component {
     );
   }
 
-  render() {
 
+  render() {
     const styles = this.defaultStyles;
 
     return(
