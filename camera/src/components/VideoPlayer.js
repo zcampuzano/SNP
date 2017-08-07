@@ -1,15 +1,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Dimensions,
-  Image,
   Animated
 } from 'react-native';
 
@@ -79,9 +75,8 @@ class VideoPlayer extends Component {
   onProgress(data) {
     this.setState({currentTime: data.currentTime});
     if(this.state.currentTime == 0) {
-      this.startBarAnimation();
+        this.startBarAnimation();
     }
-    console.log(this.state.currentTime)
   }
 
   onPause() {

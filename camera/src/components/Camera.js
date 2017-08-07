@@ -2,13 +2,10 @@
 
 import { Stopwatch } from './react-native-stopwatch-timer';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
-  Text,
   View,
   Animated,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   TouchableHighlight,
   CameraRoll,
   Image,
@@ -20,7 +17,7 @@ import styles from '../styles/styleC';
 //Needs updating
 //import CameraRollExtended from 'react-native-store-photos-album';
 
-import Recorder from './react-native-screcorder';
+import Recorder from 'react-native-screcorder';
 import Dimensions from 'Dimensions';
 var screen = Dimensions.get('window');
 
@@ -53,6 +50,9 @@ class Camera extends Component {
      saveMode: true,
      flashMode: 2,
      torchMode: 0,
+     final: "00:00:000",
+     right: "RS: 00:00:000",
+     left: "LS: 00:00:001",
      config: {
        flashMode: Recorder.constants.SCFlashModeOff,
        video: {
@@ -61,11 +61,12 @@ class Camera extends Component {
          bitrate: 20000000,
          timescale: 1,
          quality: "HighestQuality",
-         overlay: {time},
+         overlay: [
+             {final: "00:00:000", right: "RS: 00:00:000", left: "LS: 00:00:000"}
+         ],
          filters: [
-           //{"file":'/Users/owc/Desktop/camera/SNP/camera/src/img/play.png'}
+           //{"file":''}
          ]
-
        },
        audio: {
          enabled: true,
@@ -78,7 +79,6 @@ class Camera extends Component {
      },
    };
   }
-
 
    componentDidMount() {
 
@@ -188,17 +188,21 @@ class Camera extends Component {
   }
 
   toggleStopwatch() {
+      this.setState({ overlay: [{final: this.state.final, right: this.state.right, left: this.state.left}] });
+      //
+      //
+      console.log(this.state.overlay);
       if (this.state.stopwatchStart) {
           if (this.state.stopwatchLap) {
               this.setState({stopwatchLap: false});
               this.setState({stopwatchStart: false, stopwatchReset: false});
-              time = require('../img/time.png')
+              time = require('../img/time.png');
           } else {
               this.setState({stopwatchLap: true});
           }
       } else {
           this.setState({stopwatchStart: true, stopwatchReset: false});
-          time = require('../img/timeon.png')
+          time = require('../img/timeon.png');
       }
   }
 
@@ -207,8 +211,8 @@ class Camera extends Component {
     this.setState({stopwatchStart: false, stopwatchReset: true, stopwatchLap: false})
   }
 
-  getFormattedTime(final) {
-    //this.format(final);
+  getFormattedTime(final, right, left) {
+    //this.overlay = [{final, right, left}];
   }
 
   getFormattedLapTime(sideTime, side) {
