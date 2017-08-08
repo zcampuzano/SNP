@@ -18,14 +18,14 @@ const { width, height } = Dimensions.get('window');
 
 class Gallery extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       modalVisible: false,
       modalVisible2: false,
       photos: [],
       index: null,
       video: '',
-    }
+    };
     this.getPhotos()
   }
 
@@ -49,12 +49,12 @@ class Gallery extends Component {
   }
 
   share() {
-    this.state.video = this.state.photos[this.state.index].node.image.uri
-    console.log(video)
+    this.state.video = this.state.photos[this.state.index].node.image.uri;
+    console.log(video);
     let shareOptions = {
       message: "Check out this video I made with stopNwatch!",
       url: this.state.video,
-    }
+    };
 
     Share.open(shareOptions)
       .then((res) => console.log('res:', res))
@@ -62,14 +62,14 @@ class Gallery extends Component {
   }
 
   playVideo() {
-    this.state.video = this.state.photos[this.state.index].node.image.uri
-    this.props.navigation.dispatch({ type: 'Video' })
+    this.state.video = this.state.photos[this.state.index].node.image.uri;
+    this.props.navigation.dispatch({ type: 'Video' });
     this.props.navigation.dispatch({ type: this.state.video })
 
   }
 
   render() {
-    console.log('state :', this.state)
+    console.log('state :', this.state);
 
     return (
       <View style={styles.container}>

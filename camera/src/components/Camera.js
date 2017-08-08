@@ -30,65 +30,63 @@ var time = require('../img/time.png');
 var recordbutton = require('../img/recordbutton.png');
 var gallery = require('../img/gallery.png');
 
+// TIMES
+var finalTime;
+var rightTime;
+var leftTime;
+
 class Camera extends Component {
-  constructor(props) {
-   super(props);
-   this.state = {
-     device: "back",
-     recording: false,
-     nbSegments: 0,
-     barPosition: new Animated.Value(0),
-     currentDuration: 0,
-     currentTime: null,
-     maxDuration: 10000,
-     limitReached: false,
-     url: null,
-     settingsVisible: false,
-     stopwatchStart: false,
-     stopwatchReset: false,
-     stopwatchLap: false,
-     saveMode: true,
-     flashMode: 2,
-     torchMode: 0,
-     final: "00:00:000",
-     right: "RS: 00:00:000",
-     left: "LS: 00:00:001",
-     config: {
-       flashMode: Recorder.constants.SCFlashModeOff,
-       video: {
-         enabled: true,
-         format: 'MPEG4',
-         bitrate: 20000000,
-         timescale: 1,
-         quality: "HighestQuality",
-         overlay: [
-             {final: "00:00:000", right: "RS: 00:00:000", left: "LS: 00:00:000"}
-         ],
-         filters: [
-           //{"file":''}
-         ]
-       },
-       audio: {
-         enabled: true,
-         bitrate: 128000, // 128kbit/s
-         channelsCount: 1, // Mono output
-         format: "MPEG4AAC",
-         quality: "HighestQuality" // HighestQuality || MediumQuality || LowQuality
-       },
+    constructor(props) {
+        super(props);
+        this.state = {
+            device: "back",
+            recording: false,
+            nbSegments: 0,
+            barPosition: new Animated.Value(0),
+            currentDuration: 0,
+            currentTime: null,
+            maxDuration: 120000,
+            limitReached: false,
+            url: null,
+            settingsVisible: false,
+            stopwatchStart: false,
+            stopwatchReset: false,
+            stopwatchLap: false,
+            saveMode: true,
+            flashMode: 2,
+            torchMode: 0,
+            overlay: {final: "00:00:000", right: "RS: 00:00:000", left: "LS: 00:00:000"},
+            config: {
+            flashMode: Recorder.constants.SCFlashModeOff,
+            video: {
+                enabled: true,
+                format: 'MPEG4',
+                bitrate: 20000000,
+                timescale: 1,
+                quality: "HighestQuality",
+                filters: []
+            },
+            audio: {
+                enabled: true,
+                bitrate: 128000, // 128kbit/s
+                channelsCount: 1, // Mono output
+                format: "MPEG4AAC",
+                quality: "HighestQuality" // HighestQuality || MediumQuality || LowQuality
+            },
 
-     },
-   };
-  }
+            },
+        };
+    }
 
-   componentDidMount() {
+    componentDidMount() {
 
-   }
+    }
 
-   /*
+    /*
     *  PRIVATE METHODS
     */
 
-   startBarAnimation() {
+    startBarAnimation() {
      record = require('../img/record.png');
      this.animRunning = true;
      this.animBar = Animated.timing(
@@ -104,51 +102,52 @@ class Camera extends Component {
          this.finish();
        }
      });
-   }
+    }
 
-   resetBarAnimation() {
+    resetBarAnimation() {
      Animated.spring(this.state.barPosition, {toValue: 0}).start();
-   }
+    }
 
-   stopBarAnimation() {
+    stopBarAnimation() {
      record = null;
      this.animRunning = false;
      if (this.animBar)
        this.animBar.stop();
-   }
+    }
 
-   /*
+    /*
     *  PUBLIC METHODS
     */
 
-   toggleRecord() {
+    toggleRecord() {
      if(this.state.recording) this.finish();
      else this.record();
-   }
+    }
 
-   record() {
+    record() {
      if (this.state.limitReached) return;
      this.refs.recorder.record();
      this.startBarAnimation();
      this.setState({recording: true});
-   }
+    }
 
-  //  pause() {
-  //    if (!this.state.recording) return;
-  //    this.refs.recorder.pause();
-  //    this.stopBarAnimation();
-  //    this.setState({recording: false, nbSegments: ++this.state.nbSegments});
-  //  }
+    //  pause() {
+    //    if (!this.state.recording) return;
+    //    this.refs.recorder.pause();
+    //    this.stopBarAnimation();
+    //    this.setState({recording: false, nbSegments: ++this.state.nbSegments});
+    //  }
 
-   finish() {
+    finish() {
      this.stopBarAnimation();
+     this.resetStopwatch();
      this.refs.recorder.pause();
      this.setState({recording: false, limitReached: true, nbSegments: ++this.state.nbSegments});
      setTimeout(() => { this.preview() }, 500);
      setTimeout(() => { this.reset() }, 1000);
-   }
+    }
 
-   reset() {
+    reset() {
      this.resetBarAnimation();
      this.refs.recorder.removeAllSegments();
      this.setState({
@@ -157,9 +156,9 @@ class Camera extends Component {
        currentDuration: 0,
        limitReached: false
      });
-   }
+    }
 
-   preview() {
+    preview() {
      this.refs.recorder.save((err, url) => {
        console.log('url = ', url);
        this.setState({url: url});
@@ -167,31 +166,28 @@ class Camera extends Component {
        this.props.navigation.dispatch({ type: this.state.url})
        this.props.navigation.dispatch({ type: 'Video' })
      });
-   }
+    }
 
-   //flash toggling not currently working.
-   //see issue: https://github.com/maxs15/react-native-screcorder/issues/26
+    //flash toggling not currently working.
+    //see issue: https://github.com/maxs15/react-native-screcorder/issues/26
 
-  //  toggleFlash() {
-  //    if (this.state.config.flashMode == Recorder.constants.SCFlashModeOff) {
-  //      this.state.config.flashMode = Recorder.constants.SCFlashModeLight;
-  //    } else {
-  //      this.state.config.flashMode = Recorder.constants.SCFlashModeOff;
-  //    }
-   //
-  //    this.setState({config: this.state.config});
-  //  }
+    //  toggleFlash() {
+    //    if (this.state.config.flashMode == Recorder.constants.SCFlashModeOff) {
+    //      this.state.config.flashMode = Recorder.constants.SCFlashModeLight;
+    //    } else {
+    //      this.state.config.flashMode = Recorder.constants.SCFlashModeOff;
+    //    }
+    //
+    //    this.setState({config: this.state.config});
+    //  }
 
-  toggleSettings() {
+    toggleSettings() {
       settings = !this.state.settingsVisible ? require('../img/settingson.png') : require('../img/settings.png');
-    this.setState({ settingsVisible: !this.state.settingsVisible });
-  }
+      this.setState({ settingsVisible: !this.state.settingsVisible });
+    }
 
-  toggleStopwatch() {
-      this.setState({ overlay: [{final: this.state.final, right: this.state.right, left: this.state.left}] });
-      //
-      //
-      console.log(this.state.overlay);
+    toggleStopwatch() {
+
       if (this.state.stopwatchStart) {
           if (this.state.stopwatchLap) {
               this.setState({stopwatchLap: false});
@@ -204,60 +200,55 @@ class Camera extends Component {
           this.setState({stopwatchStart: true, stopwatchReset: false});
           time = require('../img/timeon.png');
       }
-  }
-
-  resetStopwatch() {
-    time = require('../img/time.png')
-    this.setState({stopwatchStart: false, stopwatchReset: true, stopwatchLap: false})
-  }
-
-  getFormattedTime(final, right, left) {
-    //this.overlay = [{final, right, left}];
-  }
-
-  getFormattedLapTime(sideTime, side) {
-    // console.log(sideTime)
-    // console.log(side)
-  }
-
-  format(time) {
-    this.setState({currentTime: time});
-    console.log(this.state.currentTime)
-  }
-
-  toggleFlash() {
-    if(this.state.flashMode === 0){
-      this.setState({flashMode: 2})
-      flash = require('../img/auto.png')
     }
-    if(this.state.flashMode === 1){
-      this.setState({flashMode: 0})
-      flash = require('../img/off.png')
-    }
-    if(this.state.flashMode === 2){
-      this.setState({flashMode: 1})
-      flash = require('../img/on.png')
-    }
-  }
 
-  toggleSave() {
-    if(this.state.saveMode === true) {
-      this.setState({saveMode: false})
-      save = require('../img/nosave.png')
+    resetStopwatch() {
+        this.setState({ overlay: {final: finalTime, right: rightTime, left: leftTime} });
+        time = require('../img/time.png')
+        this.setState({stopwatchStart: false, stopwatchReset: true, stopwatchLap: false});
     }
-    if(this.state.saveMode === false) {
-      this.setState({saveMode: true})
-      save = require('../img/save.png')
+
+    getFormattedTime(final, right, left) {
+        finalTime = final;
+        rightTime = right;
+        leftTime = left;
+        console.log('formatted');
+        console.log(finalTime);
     }
-  }
 
-   render() {
+    toggleFlash() {
+        if(this.state.flashMode === 0){
+          this.setState({flashMode: 2});
+          flash = require('../img/auto.png')
+        }
+        if(this.state.flashMode === 1){
+          this.setState({flashMode: 0});
+          flash = require('../img/off.png')
+        }
+        if(this.state.flashMode === 2){
+          this.setState({flashMode: 1});
+          flash = require('../img/on.png')
+        }
+    }
 
+    toggleSave() {
+        if(this.state.saveMode === true) {
+          this.setState({saveMode: false});
+          save = require('../img/nosave.png')
+        }
+        if(this.state.saveMode === false) {
+          this.setState({saveMode: true});
+          save = require('../img/save.png')
+        }
+    }
+
+    render() {
      return (
        <Recorder
           ref="recorder"
           flash={this.state.flash}
           config={this.state.config}
+          overlay={this.state.overlay}
           device={this.state.device}
           style={styles.wrapper}>
           <TouchableOpacity onPress={this.toggleStopwatch.bind(this)} onLongPress={this.resetStopwatch.bind(this)} style={styles.fullScreen}>
@@ -276,7 +267,6 @@ class Camera extends Component {
                       reset={this.state.stopwatchReset}
                       lap={this.state.stopwatchLap}
                       getTime={this.getFormattedTime}
-                      getLapTime={this.getFormattedLapTime}
                     />
 
                   </View>
@@ -346,8 +336,7 @@ class Camera extends Component {
           </Modal>
         </Recorder>
      );
-   }
-
+    }
 }
 
 module.exports = (Camera);

@@ -21,10 +21,8 @@ class Index extends Component {
 /*
 /////////////////////////TO DO//////////////////////////////
 
-!- Stopwatch overlay
 !- Save to Album - CameraRollExtended needs to be updated with Photos Library... AssetsLibrary deprecated
 !- Landscape mode - figure out best method (testing) - possibly only allow landscape in video playback
-!- Logo/Splash screen (christian)
 
 ////////////////////////////////////////////////////////////
 */

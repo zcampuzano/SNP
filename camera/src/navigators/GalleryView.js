@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Dimensions, View, Text, Button, StatusBar, TouchableHighlight, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StatusBar, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Gallery from '../components/Gallery';
 import styles from '../styles/styleG';

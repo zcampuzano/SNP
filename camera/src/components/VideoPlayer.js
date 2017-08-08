@@ -74,7 +74,7 @@ class VideoPlayer extends Component {
 
   onProgress(data) {
     this.setState({currentTime: data.currentTime});
-    if(this.state.currentTime == 0) {
+    if(this.state.currentTime === 0) {
         this.startBarAnimation();
     }
   }
@@ -96,7 +96,7 @@ class VideoPlayer extends Component {
 
 
   renderRateControl(rate) {
-    const isSelected = (this.state.rate == rate);
+    const isSelected = (this.state.rate === rate);
 
     return (
       <TouchableOpacity onPress={() => { this.setState({rate: rate}) }}>

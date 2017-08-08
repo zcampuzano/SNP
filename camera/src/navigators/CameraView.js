@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
 import Camera from '../components/Camera';
 import styles from '../styles/styleC';
 

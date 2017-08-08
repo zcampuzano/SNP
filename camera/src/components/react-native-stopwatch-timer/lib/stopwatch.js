@@ -79,9 +79,6 @@ class StopWatch extends Component {
     if(this.props.start) {
       this.start();
     }
-    // if (typeof this.props.getTime === "function") {
-    //   this.props.getTime({final: this.state.final, right: this.state.fright, left: this.state.fleft});
-    // }
   }
 
   componentWillReceiveProps(newProps) {
@@ -272,8 +269,8 @@ class StopWatch extends Component {
       lsminutes = `${lsm_ten}${lsm_one}`;
 
       final = `${minutes}:${seconds}:${msecs}`;
-      right = `${rsminutes}:${rsseconds}:${rsmsecs}`;
-      left = `${lsminutes}:${lsseconds}:${lsmsecs}`;
+      right = `RS: ${rsminutes}:${rsseconds}:${rsmsecs} `;
+      left = `LS: ${lsminutes}:${lsseconds}:${lsmsecs} `;
 
       if (typeof this.props.getTime === "function") {
           this.props.getTime(final, right, left);
