@@ -48,6 +48,7 @@ class Camera extends Component {
             maxDuration: 120000,
             limitReached: false,
             url: null,
+            uri: null,
             settingsVisible: false,
             stopwatchStart: false,
             stopwatchReset: false,
@@ -140,10 +141,13 @@ class Camera extends Component {
 
     finish() {
      this.stopBarAnimation();
+     if(this.state.stopwatchStart) {
+         this.toggleStopwatch();
+     }
      this.resetStopwatch();
      this.refs.recorder.pause();
      this.setState({recording: false, limitReached: true, nbSegments: ++this.state.nbSegments});
-     setTimeout(() => { this.preview() }, 500);
+     setTimeout(() => { this.save() }, 500);
      setTimeout(() => { this.reset() }, 1000);
     }
 
@@ -158,15 +162,17 @@ class Camera extends Component {
      });
     }
 
-    preview() {
-     this.refs.recorder.save((err, url) => {
-       console.log('url = ', url);
-       this.setState({url: url});
-       CameraRoll.saveToCameraRoll(this.state.url);
-       this.props.navigation.dispatch({ type: this.state.url})
-       this.props.navigation.dispatch({ type: 'Video' })
-     });
+    save() {
+        this.refs.recorder.save((err, url) => {
+            console.log('url = ', url);
+            this.setState({url: url});
+            CameraRoll.saveToCameraRoll(this.state.url)
+                .then(r => this.props.navigation.dispatch({ type: r }))
+        });
+        // this.props.navigation.dispatch({ type: this.state.url})
+        setTimeout(() => { this.props.navigation.dispatch({ type: 'Video' }) }, 10000)
     }
+
 
     //flash toggling not currently working.
     //see issue: https://github.com/maxs15/react-native-screcorder/issues/26
@@ -187,7 +193,9 @@ class Camera extends Component {
     }
 
     toggleStopwatch() {
-
+      this.setState({ overlay: {final: finalTime, right: rightTime, left: leftTime} });
+      // console.log('toggle');
+      // console.log(this.state.overlay);
       if (this.state.stopwatchStart) {
           if (this.state.stopwatchLap) {
               this.setState({stopwatchLap: false});
@@ -204,6 +212,8 @@ class Camera extends Component {
 
     resetStopwatch() {
         this.setState({ overlay: {final: finalTime, right: rightTime, left: leftTime} });
+        // console.log('reset');
+        // console.log(this.state.overlay);
         time = require('../img/time.png')
         this.setState({stopwatchStart: false, stopwatchReset: true, stopwatchLap: false});
     }
@@ -212,8 +222,8 @@ class Camera extends Component {
         finalTime = final;
         rightTime = right;
         leftTime = left;
-        console.log('formatted');
-        console.log(finalTime);
+        // console.log('formatted');
+        // console.log(finalTime);
     }
 
     toggleFlash() {
